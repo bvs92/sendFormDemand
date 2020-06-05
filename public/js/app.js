@@ -2103,6 +2103,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // TODOS
@@ -2113,7 +2123,7 @@ __webpack_require__.r(__webpack_exports__);
 // 5. Spinner loader when form is created/mounter. => ok
 // 6. Style the page. (Tailwind Css?) => ok (fara a utiliza Tailwind)
 // 7. URL Query for selecting the category when form is loading? => ok
-// 8. Remove selected category (click on X) and give possibility to select what you want. 
+// 8. Remove selected category (click on X) and give possibility to select what you want.  => ok
 // --. Use Algolia for selecting the city? Nu merge??
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2163,10 +2173,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.resetErrors();
-      var theCategory = this.selectedCategory ? this.selectedCategory.name : this.category;
-      console.log('Suntem la register');
-      console.log(theCategory);
-      console.log('End Suntem la register');
+      var theCategory = this.selectedCategory ? this.selectedCategory.name : this.category; // console.log('Suntem la register');
+      // console.log(theCategory);
+      // console.log('End Suntem la register');
+
       var newDemand = {
         name: this.name,
         email: this.email,
@@ -2241,7 +2251,16 @@ __webpack_require__.r(__webpack_exports__);
       this.description = "";
       this.$refs.formComponent.reset(); // Va face GET Request.
 
-      location.href = "/form";
+      if (this.hasUrlCategory) setTimeout(function () {
+        location.href = "/form";
+      }, 2500);
+    },
+    changeCategory: function changeCategory() {
+      // console.log('Change category.');
+      if (this.hasUrlCategory) {
+        this.hasUrlCategory = false;
+        this.selectedCategory = "";
+      }
     }
   },
   computed: {
@@ -2270,13 +2289,12 @@ __webpack_require__.r(__webpack_exports__);
         // console.log(this.categories.flat());
         var theCat = _this3.getCategories.filter(function (elem) {
           if (elem.name == category_url) return elem;
-        });
+        }); // console.log(theCat.length);
 
-        console.log(theCat.length);
 
         if (theCat.length > 0) {
           // console.log("Aici: " + theCat[0].usage_name);
-          console.log(theCat[0]);
+          // console.log(theCat[0]);
           _this3.selectedCategory = theCat[0];
           _this3.hasUrlCategory = true;
         } else {
@@ -50461,10 +50479,29 @@ var render = function() {
                     _vm.hasUrlCategory
                       ? _c("div", [
                           _c("h3", { staticStyle: { margin: "20px 0px" } }, [
-                            _vm._v("Categorie: "),
+                            _vm._v("\n                    Categorie: "),
                             _c("strong", [
                               _vm._v(_vm._s(_vm.selectedCategory.usage_name))
-                            ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "close",
+                                attrs: {
+                                  type: "button",
+                                  "aria-label": "Close"
+                                },
+                                on: { click: _vm.changeCategory }
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  { attrs: { "aria-hidden": "true" } },
+                                  [_vm._v("×")]
+                                )
+                              ]
+                            )
                           ])
                         ])
                       : _c(
@@ -51202,11 +51239,17 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-primary btn-block send",
+                        staticClass: "btn btn-primary btn-block send shadow",
                         attrs: { type: "submit" }
                       },
                       [_vm._v("Trimite cerere")]
-                    )
+                    ),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "small py-4" }, [
+                      _vm._v(
+                        "Datele dvs. personale vor fi utilizate numai in contextul cererii dvs. de munca. Pentru mai multe informatii despre prelucrarea datelor dvs. personale. Prin trimiterea cererii dvs., acceptati fara rezerve conditiile noastre generale de utilizare."
+                      )
+                    ])
                   ]
                 )
               ])

@@ -12,8 +12,17 @@
 
         <ValidationObserver ref="formComponent">
             <form @submit.prevent="registerDemand"> 
-                <div v-if="hasUrlCategory"><h3 style="margin: 20px 0px;">Categorie: <strong>{{ selectedCategory.usage_name }}</strong></h3></div>
+                <div v-if="hasUrlCategory">
+                    <h3 style="margin: 20px 0px;">
+                        Categorie: <strong>{{ selectedCategory.usage_name }}</strong>
+                        <button type="button" @click="changeCategory" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h3>
+                    </div>
                 <!-- <div>{{ selectedCategory }}</div> -->
+
+
                 <div class="form-group" v-else>
                     <label for="category">Categorie</label>
                     <validation-provider rules="required" v-slot="{ errors, invalid, valid, touched }">
@@ -145,9 +154,10 @@
                 </div>
 
                 <button type="submit" 
-                class="btn btn-primary btn-block send"
-                
+                class="btn btn-primary btn-block send shadow"
                 >Trimite cerere</button>
+
+                <p class="small py-4">Datele dvs. personale vor fi utilizate numai in contextul cererii dvs. de munca. Pentru mai multe informatii despre prelucrarea datelor dvs. personale. Prin trimiterea cererii dvs., acceptati fara rezerve conditiile noastre generale de utilizare.</p>
             </form>
         </ValidationObserver>
         </div><!-- end form -->
@@ -168,7 +178,7 @@ import {RotateSquare2} from 'vue-loading-spinner';
 // 5. Spinner loader when form is created/mounter. => ok
 // 6. Style the page. (Tailwind Css?) => ok (fara a utiliza Tailwind)
 // 7. URL Query for selecting the category when form is loading? => ok
-// 8. Remove selected category (click on X) and give possibility to select what you want. 
+// 8. Remove selected category (click on X) and give possibility to select what you want.  => ok
 // --. Use Algolia for selecting the city? Nu merge??
 
 export default {
@@ -225,9 +235,9 @@ export default {
             this.resetErrors();
             
             const theCategory = this.selectedCategory ? this.selectedCategory.name : this.category;
-            console.log('Suntem la register');
-            console.log(theCategory);
-            console.log('End Suntem la register');
+            // console.log('Suntem la register');
+            // console.log(theCategory);
+            // console.log('End Suntem la register');
 
             let newDemand = {
                 name: this.name,
@@ -326,8 +336,19 @@ export default {
             this.$refs.formComponent.reset();
 
             // Va face GET Request.
-            location.href = "/form";
+            if(this.hasUrlCategory)
+                setTimeout(() => {location.href = "/form";}, 2500);
+
         },
+
+
+        changeCategory(){
+            // console.log('Change category.');
+            if(this.hasUrlCategory){
+                this.hasUrlCategory = false;
+                this.selectedCategory = "";
+            }
+        }
     },
     computed: {
         countCategories(){
@@ -361,11 +382,11 @@ export default {
                         return elem;
                 });
 
-                console.log(theCat.length);
+                // console.log(theCat.length);
 
                 if(theCat.length > 0){
                     // console.log("Aici: " + theCat[0].usage_name);
-                    console.log(theCat[0]);
+                    // console.log(theCat[0]);
                     this.selectedCategory = theCat[0];
                     this.hasUrlCategory = true;
                 } else {

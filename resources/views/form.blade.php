@@ -32,13 +32,13 @@
             <div class="container p-4">
                 <div class="row my-4">
                     <div class="col-lg-12" style="margin: 30px 0px;">
-                        <h1 class="text-center my-2" style="font-size:30px;color:white;">Trimiteti-ne cererea folosind formularul de mai jos.</h1>
+                        <h1 class="text-center my-2" style="font-size:34px;color:white;">Trimiteti-ne cererea folosind formularul de mai jos.</h1>
                     </div>
                 </div>
     
                 <div class="row my-4">
                     <div class="col-lg-6 p-4">
-                        <h2 style="font-size:26px;margin: 20px 0px;color:white;">Gasiti un profesionist in zona dumneavoastra.</h2>
+                        <h2 style="font-size:30px;margin: 20px 0px;color:white;">Gasiti un profesionist in zona dumneavoastra.</h2>
                         <ul style="color:white;">
                             <li>Retea de profesionisti verificati.</li>
                             <li>Obtineti pana la 5 oferte de la 5 profesionisti.</li>
@@ -47,7 +47,7 @@
                             <li>Preturi competitive.</li>
                         </ul>
                     </div><!-- end left side -->
-                    <div class="col-lg-6" style="background:white;padding:10px 20px;">
+                    <div class="col-lg-6 shadow-sm rounded" style="background:white;padding:10px 20px;">
                         <div id="app">
                             <form-component></form-component>
                         </div>
