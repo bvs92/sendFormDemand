@@ -28,6 +28,10 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 
 
+
+
+
+
 // import progressbar
 import VueProgressBar from 'vue-progressbar'
 
@@ -65,6 +69,45 @@ window.fireToastr = function(type="success", message) {
     });
 };
 
+
+
+// VeeValidate
+
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { required, email } from 'vee-validate/dist/rules';
+
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
+
+
+
+extend('required', {
+  ...required,
+  message: 'Aceasta informatie este obligatorie.'
+});
+
+extend('email', {
+    ...email,
+    message: 'Adresa e-mail nu este valida.'
+});
+
+extend('min', {
+    validate(value, args) {
+      return value >= args.length;
+    },
+    params: ['length'],
+    message: 'Valoarea nu este valida. Minim {length}.'
+});
+
+extend('max', {
+    validate(value, args) {
+      return value <= args.length;
+    },
+    params: ['length'],
+    message: 'Valoarea nu este valida. Maxim {length}.'
+});
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -73,4 +116,7 @@ window.fireToastr = function(type="success", message) {
 
 const app = new Vue({
     el: '#app',
+    components: {
+        ValidationProvider
+    }
 });

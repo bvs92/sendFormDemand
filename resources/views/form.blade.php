@@ -28,11 +28,11 @@
 
     </head>
     <body>
-        <div class="container-fluid" style="background-image:url(img/bkd.jpg); background-repeat:no-repeat;background-size:cover;">
+        <div class="container-fluid" style="background-image:url(img/bkd.jpg); background-repeat:no-repeat;background-size:cover;background-attachment: fixed;">
             <div class="container p-4">
                 <div class="row my-4">
-                    <div class="col-lg-12">
-                        <h1 class="text-center my-2" style="font-size:30px;color:white;">Trimite un mesaj folosind formularul de mai jos.</h1>
+                    <div class="col-lg-12" style="margin: 30px 0px;">
+                        <h1 class="text-center my-2" style="font-size:30px;color:white;">Trimiteti-ne cererea folosind formularul de mai jos.</h1>
                     </div>
                 </div>
     
