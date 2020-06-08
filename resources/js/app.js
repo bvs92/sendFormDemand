@@ -30,8 +30,6 @@ Vue.component('form-component', require('./components/FormComponent.vue').defaul
 
 
 
-
-
 // import progressbar
 import VueProgressBar from 'vue-progressbar'
 

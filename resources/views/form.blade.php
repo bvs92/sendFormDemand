@@ -8,6 +8,9 @@
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0" defer></script>
+
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 

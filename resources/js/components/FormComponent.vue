@@ -41,27 +41,32 @@
                 </div>
 
 
-                <div class="form-group">
-                    <label for="postal_code">Cod postal</label>
-                    <validation-provider rules="required" v-slot="{ errors, invalid, valid, touched }">
-                        <input type="numeric" class="form-control"
-                        :class="{'is-invalid': invalid && touched, 'is-valid': valid && touched}"
-                         id="postal_code" placeholder="235300" v-model="postal_code">
-                        <span class="text-danger" style="font-size:12px;">{{ errors[0] }}</span>
-                    </validation-provider>
+                
 
-                    <div class="text-danger" style="font-size:12px;" v-if="checkKeyError('postal_code')">
-                        <!-- from server -->
-                        {{ getErrors['postal_code'] }}
-                    </div>
+                <div>
+                    {{ form.country.data.postcode }}
+                </div>
+
+                <div>
+                    <!-- {{ form.data }} -->
                 </div>
 
                 <div class="form-group">
                     <label for="city">Oras</label>
                     <validation-provider rules="required" v-slot="{ errors, invalid, valid, touched }">
-                        <input type="text" class="form-control"
+
+                        <places
+                            v-model="form.country.label"
+                            placeholder="Orasul proiectului?"
+                            @change="val => { form.country.data = val }"
+                            :options="options"
+                            :class="{'is-invalid': invalid && touched, 'is-valid': valid && touched}"
+                            >
+                        </places>
+
+                        <!-- <input type="text" class="form-control"
                         :class="{'is-invalid': invalid && touched, 'is-valid': valid && touched}"
-                         id="city" placeholder="Corabia" v-model="city">
+                         id="city" placeholder="Corabia" v-model="city"> -->
                     <!-- <input type="search" id="address-input" v-model="city" placeholder="Cauta orasul." ref="algoliaPlace" /> -->
                             <span class="text-danger" style="font-size:12px;">{{ errors[0] }}</span>
                         </validation-provider>
@@ -71,6 +76,26 @@
                         {{ getErrors['city'] }}
                     </div>
                 </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="postal_code">Cod postal</label>
+                    <validation-provider rules="required" v-slot="{ errors, invalid, valid, touched }">
+                        <input type="numeric" class="form-control"
+                        :class="{'is-invalid': invalid && touched, 'is-valid': valid && touched}"
+                         id="postal_code" placeholder="235300" v-model="form.country.data.postcode">
+                        <span class="text-danger" style="font-size:12px;">{{ errors[0] }}</span>
+                    </validation-provider>
+
+                    <div class="text-danger" style="font-size:12px;" v-if="checkKeyError('postal_code')">
+                        <!-- from server -->
+                        {{ getErrors['postal_code'] }}
+                    </div>
+                </div>
+
+                
 
                 <div class="form-group">
                     <label for="description">Descriere cerere</label>
@@ -170,6 +195,8 @@ import Vue from 'vue'
 import axios from 'axios';
 import {RotateSquare2} from 'vue-loading-spinner';
 
+import Places from 'vue-places';
+
 // TODOS
 // 1. SweetAlert Toastr. => ok
 // 2. Reset form after submit. => ok
@@ -184,7 +211,8 @@ import {RotateSquare2} from 'vue-loading-spinner';
 export default {
     name: 'FormComponent',
     components:{
-        RotateSquare2
+        RotateSquare2,
+        Places
     },
 
      props: {
@@ -209,7 +237,22 @@ export default {
             globalErrors: "",
             isLoading: false,
             hasUrlCategory: false,
-            selectedCategory: ""
+            selectedCategory: "",
+
+
+            options: {
+                appId: 'pl1WYNETK3N6',
+                apiKey: 'b484a3f6dd7e0360946c8cdfdda544db',
+                countries: ['RO'],
+            },
+            form: {
+                country: {
+                    label: null,
+                    data: {},
+                },
+            },
+
+
         }
     },
 
@@ -243,8 +286,10 @@ export default {
                 name: this.name,
                 email: this.email,
                 phone: this.phone,
-                city: this.city,
-                postal_code: this.postal_code,
+                // city: this.city,
+                city: this.form.country.label,
+                // postal_code: this.postal_code,
+                postal_code: this.form.country.data.postcode,
                 project_delay: this.project_delay,
                 category: theCategory,
                 description: this.description
@@ -327,8 +372,10 @@ export default {
             this.name = "";
             this.email = "";
             this.phone = "";
-            this.city = "";
-            this.postal_code = "";
+            // this.city = "";
+            this.form.country.label = "";
+            // this.postal_code = "";
+            this.form.country.data.postcode = "";
             this.category = "";
             this.project_delay = "";
             this.description = "";
@@ -368,6 +415,7 @@ export default {
     },
 
     beforeMount(){
+
         this.isLoading = true;
          this.fetchAllCategories().then(respnse => {
             this.isLoading = false;
@@ -401,9 +449,6 @@ export default {
         }).catch(err => console.log(err));
     },
     mounted(){
-       
-        
-
     },
 
     created(){
